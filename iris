@@ -1,0 +1,22 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import precision_score
+
+iris = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+
+y = iris["species"].to_numpy()
+x = iris[["sepal_length", "sepal_width", "petal_length", "petal_width"]].to_numpy()
+
+#y = iris.loc[:"species"]
+#x = iris.loc[:,["sepal_length", "sepal_width", "petal_length", "petal_width"]]
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,train_size=0.8,shuffle=True)
+
+clf = SVC()
+
+clf.fit(x_train,y_train)
+
+y_pred = clf.predict(x_test)
+
+print(precision_score(y_test, y_pred, average=None))
